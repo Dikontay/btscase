@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	"github.com/RickDred/ozinse/internal/auth"
-	"github.com/RickDred/ozinse/internal/models"
+	"github.com/Dikontay/btscase/internal/auth"
+	"github.com/Dikontay/btscase/internal/models"
 )
 
 type service struct {

@@ -3,7 +3,7 @@ package auth
 import (
 	"context"
 
-	"github.com/RickDred/ozinse/internal/models"
+	"github.com/Dikontay/btscase/internal/models"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,8 +19,8 @@ type ServiceInterface interface {
 }
 
 type RepoInterface interface {
-	Insert(context.Context, *models.User) (uint, error)
+	Insert(context.Context, *models.User) (int, error)
 	GetByEmail(context.Context, string) (*models.User, error)
-	GetByID(context.Context, uint) (*models.User, error)
+	GetByID(context.Context, int) (*models.User, error)
 	GetAll(context.Context) ([]models.User, error)
 }

@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/RickDred/ozinse/internal/auth"
-	"github.com/RickDred/ozinse/internal/models"
+	"github.com/Dikontay/btscase/internal/auth"
+	"github.com/Dikontay/btscase/internal/models"
 	"gorm.io/gorm"
 )
 
@@ -17,7 +17,7 @@ func New(db *gorm.DB) auth.RepoInterface {
 	return &repo{db}
 }
 
-func (r *repo) Insert(ctx context.Context, user *models.User) (uint, error) {
+func (r *repo) Insert(ctx context.Context, user *models.User) (int, error) {
 	result := r.db.WithContext(ctx).Create(user)
 	if result.Error != nil {
 		return 0, result.Error
@@ -37,7 +37,7 @@ func (r *repo) GetByEmail(ctx context.Context, email string) (*models.User, erro
 	return &user, nil
 }
 
-func (r *repo) GetByID(ctx context.Context, id uint) (*models.User, error) {
+func (r *repo) GetByID(ctx context.Context, id int) (*models.User, error) {
 	var user models.User
 	result := r.db.WithContext(ctx).First(&user, id)
 	if result.Error != nil {

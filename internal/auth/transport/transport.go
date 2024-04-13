@@ -1,6 +1,6 @@
 package transport
 
-import "github.com/RickDred/ozinse/internal/auth"
+import "github.com/Dikontay/btscase/internal/auth"
 
 type transport struct {
 	service auth.ServiceInterface

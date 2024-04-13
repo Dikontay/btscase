@@ -1,7 +1,7 @@
 package transport
 
 import (
-	"github.com/RickDred/ozinse/internal/models"
+	"github.com/Dikontay/btscase/internal/models"
 	"github.com/gin-gonic/gin"
 )
 

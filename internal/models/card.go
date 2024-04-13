@@ -8,5 +8,5 @@ type Card struct {
 	Type   string
 	Nomer  string
 	Due    time.Time
-	userID int
+	UserID int
 }
