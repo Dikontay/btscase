@@ -1,15 +1,14 @@
 package service
 
 import (
-	"database/sql"
-
 	"github.com/Dikontay/btscase/internal/repository"
+	"gorm.io/gorm"
 )
 
 type Service struct {
 	repo *repository.Repository
 }
 
-func New(conn *sql.Conn) *Service {
+func New(conn *gorm.DB) *Service {
 	return &Service{repository.New(conn)}
 }
