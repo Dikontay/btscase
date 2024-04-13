@@ -8,6 +8,7 @@ import (
 	"github.com/Dikontay/btscase/internal/auth/repository"
 	"github.com/Dikontay/btscase/internal/auth/service"
 	atransport "github.com/Dikontay/btscase/internal/auth/transport"
+	"github.com/Dikontay/btscase/internal/transport"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
@@ -56,11 +57,14 @@ func (a *api) Run() {
 	at := atransport.New(as)
 	auth.SetRoutes(authgroup, at)
 
-	eng.Use(at.Authorize())
+	// eng.Use(at.Authorize())
 
-	// handlers := transport.New()
+	handlers := transport.New(db)
 
-	// _ = handlers
+	_ = handlers
+
+	eng.GET("/:market", at.Authorize(), handlers.GetOffersHandler)
+	eng.POST("/card", at.Authorize(), handlers.AddCardHandler)
 
 	if err := eng.Run("localhost:4000"); err != nil {
 		panic(err)

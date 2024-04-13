@@ -16,8 +16,8 @@ func New(conn *gorm.DB) *Service {
 	return &Service{repository.New(conn)}
 }
 
-func (s *Service) GetOffersByMarket(ctx context.Context, market string) ([]models.Offer, error) {
-	return s.repo.GetOffersByMarket(ctx, market)
+func (s *Service) GetOffersByMarket(ctx context.Context, market string, userid int) ([]models.Offer, error) {
+	return s.repo.GetOffersByMarket(ctx, market, userid)
 }
 
 func (s *Service) AddOffer(ctx context.Context, offer *models.Offer) error {

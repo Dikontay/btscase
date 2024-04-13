@@ -6,7 +6,7 @@ import (
 )
 
 type Transport struct {
-	service *service.Service
+	Service *service.Service
 }
 
 func New(conn *gorm.DB) *Transport {
