@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS offers (
+    ID SERIAL PRIMARY KEY,
+    Bank VARCHAR(255) NOT NULL,
+    Type VARCHAR(255) NOT NULL,
+    Nomer VARCHAR(255),
+    Due TIMESTAMP,
+    UserID int REFERENCES users(id)
+);

@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import "github.com/Dikontay/btscase/internal/api"
 
 func main() {
-	fmt.Println("test")
+	a := api.New()
+
+	a.Run()
 }
