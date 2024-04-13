@@ -38,3 +38,8 @@ func (r *Repository) AddCard(ctx context.Context, card *models.Card) error {
 	result := r.conn.WithContext(ctx).Create(card)
 	return result.Error
 }
+
+func (r *Repository) AddOffers(ctx context.Context, offers []*models.Offer) error {
+	result := r.conn.WithContext(ctx).Create(offers)
+	return result.Error
+}
