@@ -32,3 +32,17 @@ func (s *Service) AddOffers(ctx context.Context, offers []*models.Offer) error {
 
 	return s.repo.AddOffers(ctx, offers)
 }
+
+func (s *Service) GetUserInfo(ctx context.Context, id int) (*models.User, error) {
+
+	user, err := s.repo.GetUserInfo(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	user.CleanPassword()
+	return user, err
+}
+
+func (s *Service) GetCardByUserID(ctx context.Context, userid int) (*models.Card, error) {
+	return s.repo.GetCardByUserID(ctx, userid)
+}

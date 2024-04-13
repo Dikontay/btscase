@@ -45,4 +45,14 @@ func (r *Repository) AddOffers(ctx context.Context, offers []*models.Offer) erro
 	return result.Error
 }
 
-func (r *Repository) GetUserInfo()
+func (r *Repository) GetUserInfo(ctx context.Context, id int) (*models.User, error) {
+	var user models.User
+	result := r.conn.WithContext(ctx).Where(`id=?`, id).Find(&user)
+	return &user, result.Error
+}
+
+func (r *Repository) GetCardByUserID(ctx context.Context, id int) (*models.Card, error) {
+	var card models.Card
+	result := r.conn.WithContext(ctx).Where(`userid=?`, id).Find(&card)
+	return &card, result.Error
+}

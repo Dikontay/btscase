@@ -2,6 +2,7 @@ package transport
 
 import (
 	"errors"
+	"net/http"
 	"time"
 
 	"github.com/Dikontay/btscase/internal/models"
@@ -63,4 +64,36 @@ func (t *Transport) AddCardHandler(c *gin.Context) {
 		return
 	}
 	c.JSON(200, nil)
+}
+
+func (t *Transport) GetUserInfo(c *gin.Context) {
+	user, err := GetUserFromGin(c)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	user, err = t.Service.GetUserInfo(c.Request.Context(), user.ID)
+	c.JSON(http.StatusOK, user)
+
+}
+
+func (t *Transport) GetCard(c *gin.Context) {
+	user, err := GetUserFromGin(c)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	user, err = t.Service.GetUserInfo(c.Request.Context(), user.ID)
+	c.JSON(http.StatusOK, user)
+
+}
+
+func (t *Transport) GetCardByUserId(c *gin.Context) {
+	user, err := GetUserFromGin(c)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	card, err := t.Service.GetCardByUserID(c.Request.Context(), user.ID)
+	c.JSON(http.StatusOK, card)
 }

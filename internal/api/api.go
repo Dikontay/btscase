@@ -65,7 +65,8 @@ func (a *api) Run() {
 
 	eng.GET("/:market", at.Authorize(), handlers.GetOffersHandler)
 	eng.POST("/card", at.Authorize(), handlers.AddCardHandler)
-
+	eng.GET("/get-user-info", at.Authorize(), handlers.GetUserInfo)
+	eng.GET("/get-card", at.Authorize(), handlers.GetCard)
 	if err := eng.Run("localhost:4000"); err != nil {
 		panic(err)
 	}

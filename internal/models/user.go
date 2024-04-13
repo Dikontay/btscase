@@ -14,7 +14,7 @@ type User struct {
 	Password string
 	Surname  string
 	Email    string
-	Addres   string
+	Address  string
 	Phone    string
 	Role     string
 }
