@@ -1,8 +1,9 @@
 CREATE TABLE IF NOT EXISTS offers (
     ID SERIAL PRIMARY KEY,
     Bank VARCHAR(255) NOT NULL,
-    Type VARCHAR(255) NOT NULL,
-    Nomer VARCHAR(255),
+    Market VARCHAR(255) NOT NULL,
+    Category VARCHAR(255),
+    Precent float not null,
     Due TIMESTAMP,
-    UserID int REFERENCES users(id)
+    Limitation varchar(255)
 );
