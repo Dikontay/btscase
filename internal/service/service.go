@@ -19,3 +19,11 @@ func New(conn *gorm.DB) *Service {
 func (s *Service) GetOffersByMarket(ctx context.Context, market string) ([]models.Offer, error) {
 	return s.repo.GetOffersByMarket(ctx, market)
 }
+
+func (s *Service) AddOffer(ctx context.Context, offer *models.Offer) error {
+	return s.repo.AddOffer(ctx, offer)
+}
+
+func (s *Service) AddCard(ctx context.Context, card *models.Card) error {
+	return s.repo.AddCard(ctx, card)
+}
