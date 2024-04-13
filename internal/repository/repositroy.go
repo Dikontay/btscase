@@ -43,3 +43,5 @@ func (r *Repository) AddOffers(ctx context.Context, offers []*models.Offer) erro
 	result := r.conn.WithContext(ctx).Create(offers)
 	return result.Error
 }
+
+func (r *Repository) GetUserInfo()
