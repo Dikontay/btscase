@@ -3,9 +3,10 @@ package forte
 import (
 	"errors"
 	"fmt"
-	"github.com/playwright-community/playwright-go"
 
 	"github.com/Dikontay/btscase/internal/models"
+	"github.com/playwright-community/playwright-go"
+
 	"log"
 	"regexp"
 	"strconv"
@@ -40,27 +41,27 @@ func ForteBankParser() (*ForteParser, error) {
 	return result, nil
 }
 
-func (parser *ForteParser) ParseHalyk() error {
+func (parser *ForteParser) ParseForte() error {
 	url := "https://premier.forte.kz/ru/loyalty-program"
 
-	urlsOfOffers, err := parser.GetDivsOfOffers(url)
+	Offers, err := parser.GetDivsOfOffers(url)
 	if err != nil {
 		return err
 	}
 
 	//offers := make([]models.Offer, 0, len(urlsOfOffers)/
-	offers, err := parser.GetOffersFromHalyk(urlsOfOffers)
-	if err != nil {
-		return err
-	}
-	for i := range offers {
-		fmt.Println(offers[i])
-	}
-
+	// offers, err := parser.GetOffersFromHalyk(urlsOfOffers)
+	// if err != nil {
+	// 	return err
+	// }
+	// for i := range offers {
+	// 	fmt.Println(offers[i])
+	// }
+	fmt.Println(Offers)
 	return nil
 }
 
-func (parser *ForteParser) GetDivsOfOffers(URL string) ([]string, error) {
+func (parser *ForteParser) GetDivsOfOffers(URL string) ([]models.Offer, error) {
 
 	// Navigate to the URL
 	if _, err := parser.Page.Goto(URL); err != nil {
@@ -78,9 +79,10 @@ func (parser *ForteParser) GetDivsOfOffers(URL string) ([]string, error) {
 		return nil, fmt.Errorf("could not find links: %v", err)
 	}
 
-	var names []string
-	
+	var forteOffers []models.Offer
+
 	for _, div := range divs {
+		var forteOffer models.Offer
 		alt, err := div.GetAttribute("alt")
 		if err != nil {
 
@@ -91,11 +93,24 @@ func (parser *ForteParser) GetDivsOfOffers(URL string) ([]string, error) {
 			continue
 		}
 		alt = strings.TrimSpace(alt)
+		forteOffer.Market = alt
+		pText, err := div.Locator("MuiTypography-root sc-gtssRu fHTDmy MuiTypography-colorInherit").InnerText()
+		if err != nil {
+			return nil, fmt.Errorf("could not find links: %v", err)
+		}
+		forteOffer.Precent, err = strconv.ParseFloat(strings.Trim(pText, "скидка "), 32)
+		// conditions,err := div.Locator("MuiTypography-root sc-gtssRu eEHTgz MuiTypography-colorInherit MuiTypography-gutterBottom").InnerText()
+		// for _,condition := range conditions {
+		// 	forteOffer.Condition += condition + "\n"
+		// }
+		if err != nil {
+			return nil, fmt.Errorf("could not find links: %v", err)
+		}
 
-		names = append(names, alt)
+		forteOffers = append(forteOffers, forteOffer)
 	}
 
-	return names, nil
+	return forteOffers, nil
 }
 
 func (parser *ForteParser) GetOffersFromHalyk(URLs []string) ([]models.Offer, error) {
