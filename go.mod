@@ -1,16 +1,31 @@
 module github.com/Dikontay/btscase
 
-go 1.21
+
+go 1.23
 
 require (
+	github.com/blang/semver v3.5.1+incompatible // indirect
+	github.com/deckarep/golang-set/v2 v2.6.0 // indirect
+	github.com/go-jose/go-jose/v3 v3.0.1 // indirect
+	github.com/go-stack/stack v1.8.1 // indirect
+	github.com/playwright-community/playwright-go v0.4201.1 // indirect
+	github.com/tebeka/selenium v0.9.9 // indirect
+	go.uber.org/multierr v1.11.0 // indirect
+	golang.org/x/exp v0.0.0-20240103183307-be819d1f06fc // indirect
+
+
+
+
+
+
 	github.com/gin-gonic/gin v1.9.1
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/crypto v0.22.0
 	gorm.io/driver/postgres v1.5.7
 	gorm.io/gorm v1.25.9
-)
 
+)
 
 
 require (
@@ -49,4 +64,5 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
+
 )
