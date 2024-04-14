@@ -3,9 +3,9 @@ package halyk
 import (
 	"errors"
 	"fmt"
-
 	"github.com/Dikontay/btscase/internal/models"
-	"github.com/playwright-community/playwright-go"
+	"github.com/Dikontay/btscase/internal/parsing/parser"
+
 	"log"
 	"regexp"
 	"strconv"
@@ -13,43 +13,20 @@ import (
 	"time"
 )
 
-type HalykParser struct {
-	Playwright   *playwright.Playwright
-	BrowtherType *playwright.Browser
-	Page         playwright.Page
-}
-
-func NewHalykParser() (*HalykParser, error) {
-
-	pw, err := playwright.Run()
-	if err != nil {
-		return nil, err
-	}
-
-	browser, err := pw.Chromium.Launch()
-	if err != nil {
-		return nil, err
-	}
-	page, err := browser.NewPage()
-	if err != nil {
-		return nil, fmt.Errorf("could not create new page: %v", err)
-	}
-
-	result := &HalykParser{Playwright: pw, BrowtherType: &browser, Page: page}
-
-	return result, nil
-}
-
-func (parser *HalykParser) ParseHalyk() error {
+func ParseHalyk() error {
 	url := "https://halykbank.kz/promo"
-
-	urlsOfOffers, err := parser.GetURLsOfOffers(url)
+	pars, err := parser.NewParser()
+	defer pars.Close()
+	if err != nil {
+		return err
+	}
+	urlsOfOffers, err := GetURLsOfOffers(url, pars)
 	if err != nil {
 		return err
 	}
 
 	//offers := make([]models.Offer, 0, len(urlsOfOffers)/
-	offers, err := parser.GetOffersFromHalyk(urlsOfOffers)
+	offers, err := GetOffersFromHalyk(urlsOfOffers, pars)
 	if err != nil {
 		return err
 	}
@@ -60,7 +37,7 @@ func (parser *HalykParser) ParseHalyk() error {
 	return nil
 }
 
-func (parser *HalykParser) GetURLsOfOffers(URL string) ([]string, error) {
+func GetURLsOfOffers(URL string, parser *parser.Parser) ([]string, error) {
 
 	// Navigate to the URL
 	if _, err := parser.Page.Goto(URL); err != nil {
@@ -98,7 +75,7 @@ func (parser *HalykParser) GetURLsOfOffers(URL string) ([]string, error) {
 	return URLs, nil
 }
 
-func (parser *HalykParser) GetOffersFromHalyk(URLs []string) ([]models.Offer, error) {
+func GetOffersFromHalyk(URLs []string, parser *parser.Parser) ([]models.Offer, error) {
 	offers := make([]models.Offer, 0, len(URLs))
 
 	for _, URL := range URLs {
@@ -160,12 +137,6 @@ func (parser *HalykParser) GetOffersFromHalyk(URLs []string) ([]models.Offer, er
 
 	}
 
-	if err := (*parser.BrowtherType).Close(); err != nil {
-		return nil, fmt.Errorf("could not close browser: %v", err)
-	}
-	if err := parser.Playwright.Stop(); err != nil {
-		return nil, fmt.Errorf("could not stop Playwright: %v", err)
-	}
 	return offers, nil
 
 }
