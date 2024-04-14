@@ -15,12 +15,13 @@ func New(conn *gorm.DB) *Repository {
 	return &Repository{conn}
 }
 
-func (r *Repository) GetOffersByMarket(ctx context.Context, market string) ([]models.Offer, error) {
+func (r *Repository) GetOffersByMarket(ctx context.Context, market string, userid int) ([]models.Offer, error) {
 	var offers []models.Offer
 	result := r.conn.WithContext(ctx).
 		Joins("JOIN cards ON cards.bank = offers.bank").
 		Joins("JOIN users ON users.id = cards.userid").
 		Where("offers.market = ?", market).
+		Where("users.id = ?", userid).
 		Order("offers.precent").
 		Find(&offers)
 	if result.Error != nil {
@@ -42,4 +43,16 @@ func (r *Repository) AddCard(ctx context.Context, card *models.Card) error {
 func (r *Repository) AddOffers(ctx context.Context, offers []*models.Offer) error {
 	result := r.conn.WithContext(ctx).Create(offers)
 	return result.Error
+}
+
+func (r *Repository) GetUserInfo(ctx context.Context, id int) (*models.User, error) {
+	var user models.User
+	result := r.conn.WithContext(ctx).Where(`id=?`, id).Find(&user)
+	return &user, result.Error
+}
+
+func (r *Repository) GetCardByUserID(ctx context.Context, id int) (*models.Card, error) {
+	var card models.Card
+	result := r.conn.WithContext(ctx).Where(`userid=?`, id).Find(&card)
+	return &card, result.Error
 }
